@@ -16,22 +16,30 @@ import java.util.Map;
  */
 public class FreemarkerTemplate<D> extends FixedHeaderAndFooterTemplate<D> {
 
+    private static String DEFAULT_ENCODING = "UTF-8";
+    // specific to XML Schemas
+    private static String DEFAULT_DATETIME_FORMAT = "xs";
+    private static final String TEMPLATE_NAME = "template";
+    private static final String MODEL_VARIABLE = "model";
+    private static final String CONTENT_VARIABLE = "content";
+
     private Template template;
 
-public FreemarkerTemplate(InputStream header, InputStream footer, InputStream row) {
-    this(toString(header), toString(footer), toString(row));
-}
+    public FreemarkerTemplate(InputStream header, InputStream footer, InputStream row) {
+        this(toString(header), toString(footer), toString(row));
+    }
 
     public FreemarkerTemplate(String header, String footer, String row) {
         super(header, footer);
         Configuration conf = new Configuration(Configuration.VERSION_2_3_28);
-        conf.setDefaultEncoding("UTF-8");
+        conf.setDefaultEncoding(DEFAULT_ENCODING);
         conf.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         conf.setLogTemplateExceptions(false);
         conf.setWrapUncheckedExceptions(true);
+        conf.setDateTimeFormat(DEFAULT_DATETIME_FORMAT);
 
         try {
-            template = new Template("templateName", new StringReader(row), conf);
+            template = new Template(TEMPLATE_NAME, new StringReader(row), conf);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -39,8 +47,9 @@ public FreemarkerTemplate(InputStream header, InputStream footer, InputStream ro
 
     @Override
     public void writeRow(D d, Map<String, ContentInfo> map, PrintWriter printWriter) throws IOException {
-    Map<String, Object> model = new HashMap<>();
-    model.put("model", model);
+        Map<String, Object> model = new HashMap<>();
+        model.put(MODEL_VARIABLE, model);
+        model.put(CONTENT_VARIABLE, map);
 
         try {
             template.process(model, printWriter);
