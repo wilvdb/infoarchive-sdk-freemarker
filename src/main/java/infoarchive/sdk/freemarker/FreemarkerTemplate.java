@@ -1,3 +1,5 @@
+package infoarchive.sdk.freemarker;
+
 import com.opentext.ia.sdk.sip.ContentInfo;
 import com.opentext.ia.sdk.sip.FixedHeaderAndFooterTemplate;
 import com.sun.xml.internal.bind.api.impl.NameConverter;
@@ -18,7 +20,7 @@ public class FreemarkerTemplate<D> extends FixedHeaderAndFooterTemplate<D> {
 
     private static String DEFAULT_ENCODING = "UTF-8";
     // specific to XML Schemas
-    private static String DEFAULT_DATETIME_FORMAT = "xs";
+    private static final String DEFAULT_DATETIME_FORMAT = "xs";
     private static final String TEMPLATE_NAME = "template";
     private static final String MODEL_VARIABLE = "model";
     private static final String CONTENT_VARIABLE = "content";
