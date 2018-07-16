@@ -50,7 +50,7 @@ public class FreemarkerTemplate<D> extends FixedHeaderAndFooterTemplate<D> {
     @Override
     public void writeRow(D d, Map<String, ContentInfo> map, PrintWriter printWriter) throws IOException {
         Map<String, Object> model = new HashMap<>();
-        model.put(MODEL_VARIABLE, model);
+        model.put(MODEL_VARIABLE, d);
         model.put(CONTENT_VARIABLE, map);
 
         try {
